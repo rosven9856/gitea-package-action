@@ -1,0 +1,16 @@
+version: "3"
+services:
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      GITEA_INSTANCE_BASE_URL: ${GITEA_INSTANCE_BASE_URL}
+    volumes:
+      - ./src:/var/src
+    networks:
+      - bridge
+networks:
+  bridge:
+    driver: bridge
