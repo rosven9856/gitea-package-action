@@ -1,0 +1,24 @@
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  send_telegram_message:
+    name: send telegram message
+    runs-on: ubuntu-latest
+    steps:
+      - name: send telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Github. Creating new issue
+            
+            Author: ${{ github.actor }}
+            Repository: ${{ github.repository }}
+
+            See changes: https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number }}
