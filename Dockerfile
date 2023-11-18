@@ -17,4 +17,6 @@ RUN composer install
 
 USER php
 
-CMD ["php", "/var/src/app.php"]
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
