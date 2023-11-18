@@ -13,7 +13,7 @@ WORKDIR /var/src
 
 COPY ./src /var/src
 
-# RUN composer install
+RUN composer install
 
 USER php
 

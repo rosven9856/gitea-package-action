@@ -7,6 +7,9 @@ services:
       dockerfile: Dockerfile
     environment:
       GITEA_INSTANCE_BASE_URL: ${GITEA_INSTANCE_BASE_URL}
+      GITEA_ACCESS_TOKEN: ${GITEA_ACCESS_TOKEN}
+      GITEA_OWNER: ${GITEA_OWNER}
+      GITEA_REPOSITORY: ${GITEA_REPOSITORY}
     volumes:
       - ./src:/var/src
     networks:
