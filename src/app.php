@@ -104,6 +104,30 @@ function showTerminalMessage (string $message = '', string $color = ''): void
 
 try {
 
+    if (empty(\getenv('GITEA_INSTANCE_BASE_URL'))) {
+        throw new \Exception('GITEA_INSTANCE_BASE_URL empty');
+    }
+
+    if (empty(\getenv('GITEA_ACCESS_TOKEN'))) {
+        throw new \Exception('GITEA_ACCESS_TOKEN empty');
+    }
+
+    if (empty(\getenv('GITEA_OWNER'))) {
+        throw new \Exception('GITEA_OWNER empty');
+    }
+
+    if (empty(\getenv('GITEA_REPOSITORY'))) {
+        throw new \Exception('GITEA_REPOSITORY empty');
+    }
+
+    if (empty(\getenv('GITEA_PACKAGE_REGISTRY'))) {
+        throw new \Exception('GITEA_PACKAGE_REGISTRY empty');
+    }
+
+    if (!\in_array(\getenv('GITEA_PACKAGE_REGISTRY'), ['composer'])) {
+        throw new \Exception('Package registry {' . \getenv('GITEA_PACKAGE_REGISTRY') . '} is not supported');
+    }
+
     $response = sendRequest('GET', '/api/v1/user');
     $data = responseEncode($response);
 

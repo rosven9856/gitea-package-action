@@ -10,6 +10,7 @@ services:
       GITEA_ACCESS_TOKEN: ${GITEA_ACCESS_TOKEN}
       GITEA_OWNER: ${GITEA_OWNER}
       GITEA_REPOSITORY: ${GITEA_REPOSITORY}
+      GITEA_PACKAGE_REGISTRY: ${GITEA_PACKAGE_REGISTRY}
     volumes:
       - ./src:/var/src
     networks:
