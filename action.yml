@@ -1,0 +1,27 @@
+name: "Gitea updating package"
+description: "Updating a package in the Gitea system using GitHub Actions"
+inputs:
+  gitea_instance_base_url:
+    description: "gitea instance base url"
+    required: true
+  gitea_access_token:
+    description: "gitea access token"
+    required: true
+  gitea_owner:
+    description: "gitea owner"
+    required: true
+  gitea_repository:
+    description: "gitea repository"
+    required: true
+  gitea_package_registry:
+    description: "gitea package registry"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.gitea_instance_base_url }}
+    - ${{ inputs.gitea_access_token }}
+    - ${{ inputs.gitea_owner }}
+    - ${{ inputs.gitea_repository }}
+    - ${{ inputs.gitea_package_registry }}

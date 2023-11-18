@@ -33,10 +33,10 @@ function sendRequest ($method = 'GET', $endpoint = '', $data = []): array {
     }
 
     if (isset($data['user']) && !empty($data['user'])) {
-        \curl_setopt($curl, CURLOPT_USERPWD, $data['user'] . ':' . \getenv('GITEA_ACCESS_TOKEN'));
+        \curl_setopt($curl, CURLOPT_USERPWD, $data['user'] . ':' . \getenv('gitea_access_token'));
     }
 
-    \curl_setopt($curl, CURLOPT_URL, \getenv('GITEA_INSTANCE_BASE_URL') . $endpoint .'?access_token=' . \getenv('GITEA_ACCESS_TOKEN'));
+    \curl_setopt($curl, CURLOPT_URL, \getenv('gitea_instance_base_url') . $endpoint .'?access_token=' . \getenv('gitea_access_token'));
     \curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
     \curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
     \curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -104,28 +104,28 @@ function showTerminalMessage (string $message = '', string $color = ''): void
 
 try {
 
-    if (empty(\getenv('GITEA_INSTANCE_BASE_URL'))) {
-        throw new \Exception('GITEA_INSTANCE_BASE_URL empty');
+    if (empty(\getenv('gitea_instance_base_url'))) {
+        throw new \Exception('gitea_instance_base_url empty');
     }
 
-    if (empty(\getenv('GITEA_ACCESS_TOKEN'))) {
-        throw new \Exception('GITEA_ACCESS_TOKEN empty');
+    if (empty(\getenv('gitea_access_token'))) {
+        throw new \Exception('gitea_access_token empty');
     }
 
-    if (empty(\getenv('GITEA_OWNER'))) {
-        throw new \Exception('GITEA_OWNER empty');
+    if (empty(\getenv('gitea_owner'))) {
+        throw new \Exception('gitea_owner empty');
     }
 
-    if (empty(\getenv('GITEA_REPOSITORY'))) {
-        throw new \Exception('GITEA_REPOSITORY empty');
+    if (empty(\getenv('gitea_repository'))) {
+        throw new \Exception('gitea_repository empty');
     }
 
-    if (empty(\getenv('GITEA_PACKAGE_REGISTRY'))) {
-        throw new \Exception('GITEA_PACKAGE_REGISTRY empty');
+    if (empty(\getenv('gitea_package_registry'))) {
+        throw new \Exception('gitea_package_registry empty');
     }
 
-    if (!\in_array(\getenv('GITEA_PACKAGE_REGISTRY'), ['composer'])) {
-        throw new \Exception('Package registry {' . \getenv('GITEA_PACKAGE_REGISTRY') . '} is not supported');
+    if (!\in_array(\getenv('gitea_package_registry'), ['composer'])) {
+        throw new \Exception('Package registry {' . \getenv('gitea_package_registry') . '} is not supported');
     }
 
     $response = sendRequest('GET', '/api/v1/user');
@@ -141,7 +141,7 @@ try {
 
 
 
-    $response = sendRequest('GET', '/api/v1/repos/' . \getenv('GITEA_OWNER') . '/' . \getenv('GITEA_REPOSITORY') . '/releases');
+    $response = sendRequest('GET', '/api/v1/repos/' . \getenv('gitea_owner') . '/' . \getenv('gitea_repository') . '/releases');
     $data = responseEncode($response);
 
     if ($response['http_code'] !== 200) {
@@ -157,7 +157,7 @@ try {
     showTerminalMessage('Last release data: OK', GREEN);
 
 
-    $response = sendRequest('GET', '/api/v1/repos/' . \getenv('GITEA_OWNER') . '/' . \getenv('GITEA_REPOSITORY') . '/archive/' . $tag . '.zip');
+    $response = sendRequest('GET', '/api/v1/repos/' . \getenv('gitea_owner') . '/' . \getenv('gitea_repository') . '/archive/' . $tag . '.zip');
     $zipContent = $response['body'];
 
     if ($response['http_code'] !== 200) {
@@ -173,7 +173,7 @@ try {
 
 
 
-    $response = sendRequest('PUT', '/api/packages/' . \getenv('GITEA_OWNER') . '/composer?version=' . $tag, [
+    $response = sendRequest('PUT', '/api/packages/' . \getenv('gitea_owner') . '/composer?version=' . $tag, [
         'user' => $login,
         'file' => __DIR__ . '/package.zip',
     ]);
