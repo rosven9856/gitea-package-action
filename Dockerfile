@@ -1,4 +1,4 @@
-FROM rosven9856/basic-php-fpm-alpine:8.2.12.2
+FROM rosven9856/basic-php-fpm-alpine:8.3.0-1
 
 RUN addgroup -g 1000 --system php
 RUN adduser -G php --system -D -s /bin/sh -u 1000 php
