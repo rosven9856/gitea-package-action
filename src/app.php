@@ -70,6 +70,7 @@ function sendRequest ($method = 'GET', $endpoint = '', $data = []): array {
     $header = \substr($response, 0, \curl_getinfo($curl, CURLINFO_HEADER_SIZE));
     $body = \substr($response, \curl_getinfo($curl, CURLINFO_HEADER_SIZE));
     $httpCode = (int) \curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    $contentType = \curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 
     $headers = \explode("\r\n", $header);
 
@@ -81,12 +82,19 @@ function sendRequest ($method = 'GET', $endpoint = '', $data = []): array {
 
     return [
         'http_code' => $httpCode,
+        'content_type' => $contentType,
         'headers' => $headers,
         'body' => $body,
     ];
 }
 
 function responseEncode (array $response): mixed {
+
+    $data = [];
+
+    if ($response['content_type'] !== 'application/json;charset=utf-8') {
+        return $data;
+    }
 
     $data = \json_decode($response['body'], true);
 
@@ -129,6 +137,11 @@ try {
     }
 
     $response = sendRequest('GET', '/api/v1/user');
+
+    if ($response['http_code'] !== 200) {
+        throw new \Exception('Failed to get user information. Access denied. Response http code: ' . $response['http_code']);
+    }
+
     $data = responseEncode($response);
 
     if ($response['http_code'] !== 200) {
@@ -142,6 +155,11 @@ try {
 
 
     $response = sendRequest('GET', '/api/v1/repos/' . \getenv('gitea_owner') . '/' . \getenv('gitea_repository') . '/releases');
+
+    if ($response['http_code'] !== 200) {
+        throw new \Exception('Failed to get repository releases information. Access denied. Response http code: ' . $response['http_code']);
+    }
+
     $data = responseEncode($response);
 
     if ($response['http_code'] !== 200) {
@@ -161,7 +179,7 @@ try {
     $zipContent = $response['body'];
 
     if ($response['http_code'] !== 200) {
-        throw new \Exception('Failed receiving zip archive. Response http code: ' . $response['http_code'] . ', Message: ' . $data['message']);
+        throw new \Exception('Failed receiving zip archive. Response http code: ' . $response['http_code']);
     }
 
     if (empty($response['body'])) {
