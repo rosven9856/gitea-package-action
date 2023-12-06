@@ -34,9 +34,11 @@ function sendRequest ($method = 'GET', $endpoint = '', $data = []): array {
 
     if (isset($data['user']) && !empty($data['user'])) {
         \curl_setopt($curl, CURLOPT_USERPWD, $data['user'] . ':' . \getenv('gitea_access_token'));
+    } else {
+        $endpoint .= '?access_token=' . \getenv('gitea_access_token');
     }
 
-    \curl_setopt($curl, CURLOPT_URL, \getenv('gitea_instance_base_url') . $endpoint .'?access_token=' . \getenv('gitea_access_token'));
+    \curl_setopt($curl, CURLOPT_URL, \getenv('gitea_instance_base_url') . $endpoint /* . '?access_token=' . \getenv('gitea_access_token')*/);
     \curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
     \curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
     \curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -154,7 +156,9 @@ try {
 
 
 
-    $response = sendRequest('GET', '/api/v1/repos/' . \getenv('gitea_owner') . '/' . \getenv('gitea_repository') . '/releases');
+    $response = sendRequest('GET', '/api/v1/repos/' . \getenv('gitea_owner') . '/' . \getenv('gitea_repository') . '/releases', [
+        'user' => $login,
+    ]);
 
     if ($response['http_code'] !== 200) {
         throw new \Exception('Failed to get repository releases information. Access denied. Response http code: ' . $response['http_code']);
@@ -175,7 +179,9 @@ try {
     showTerminalMessage('Last release data: OK', GREEN);
 
 
-    $response = sendRequest('GET', '/api/v1/repos/' . \getenv('gitea_owner') . '/' . \getenv('gitea_repository') . '/archive/' . $tag . '.zip');
+    $response = sendRequest('GET', '/api/v1/repos/' . \getenv('gitea_owner') . '/' . \getenv('gitea_repository') . '/archive/' . $tag . '.zip', [
+        'user' => $login,
+    ]);
     $zipContent = $response['body'];
 
     if ($response['http_code'] !== 200) {
