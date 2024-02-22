@@ -4,6 +4,6 @@
 
 # Updating a package in the Gitea system using GitHub Actions
 
-[![License](https://img.shields.io/github/license/rosven9856/gitea_updating_package_action)](https://github.com/rosven9856/gitea_updating_package_action/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/rosven9856/gitea-package-action)](https://github.com/rosven9856/gitea-package-action/blob/master/LICENSE)
 
 This action will update the package version in the Gitea system using the API and output debugging information to the log.
