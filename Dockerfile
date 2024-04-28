@@ -1,4 +1,4 @@
-FROM rosven9856/php:8.3.4-1
+FROM rosven9856/php:8.3.6-1
 
 RUN addgroup -g 1000 --system php
 RUN adduser -G php --system -D -s /bin/sh -u 1000 php
