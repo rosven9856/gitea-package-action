@@ -25,3 +25,6 @@ runs:
     - ${{ inputs.gitea_owner }}
     - ${{ inputs.gitea_repository }}
     - ${{ inputs.gitea_package_registry }}
+branding:
+  icon: 'package'
+  color: 'green'
