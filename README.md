@@ -7,3 +7,16 @@
 [![License](https://img.shields.io/github/license/rosven9856/gitea-package-action)](https://github.com/rosven9856/gitea-package-action/blob/master/LICENSE)
 
 This action will update the package version in the Gitea system using the API and output debugging information to the log.
+
+
+## Example usage
+
+```yaml
+    steps:
+      - uses: rosven9856/gitea-package-action@0.1.0
+        with:
+          gitea_instance_base_url: "https://gitea_instance_url"
+          gitea_access_token: "${{ secrets._GITEA_ACCESS_TOKEN }}"
+          gitea_owner: "owner"
+          gitea_repository: "repository"
+          gitea_package_registry: "composer"
