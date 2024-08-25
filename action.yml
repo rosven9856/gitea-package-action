@@ -18,7 +18,7 @@ inputs:
     required: true
 runs:
   using: "docker"
-  image: "Dockerfile"
+  image: "action.Dockerfile"
   args:
     - ${{ inputs.gitea_instance_base_url }}
     - ${{ inputs.gitea_access_token }}

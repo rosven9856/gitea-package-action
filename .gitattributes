@@ -1,0 +1,26 @@
+*                 text=auto
+
+AUTHORS           text
+CHANGELOG         text
+CHANGES           text
+CONTRIBUTING      text
+COPYING           text
+LICENSE           text
+NEWS              text
+.editorconfig     text
+.gitattributes    text
+.gitconfig        text
+
+.env              text
+.env.example      text
+.env.ci           text
+.gitignore        text
+.dockerignore     text
+Dockerfile        text
+Makefile          text
+composer.json     text eol=lf
+*.md              text diff=markdown
+*.php             text diff=php
+*.sh              text eol=lf
+*.yml             text
+*.json            text

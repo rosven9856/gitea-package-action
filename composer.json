@@ -1,0 +1,52 @@
+{
+    "name": "rosven9856/gitea-package-action",
+    "description": "",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "rosven9856",
+            "email": "rosven9856@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.42",
+        "friendsofphp/php-cs-fixer": "^3.57",
+        "icanhazstring/composer-unused": "^0.8.11",
+        "maglnet/composer-require-checker": "^4.11",
+        "phpunit/phpunit": "^10.4.2",
+        "phpyh/coding-standard": "^2.6",
+        "psalm/plugin-phpunit": "^0.18.4",
+        "rector/rector": "^1.1",
+        "vimeo/psalm": "^5.24"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "infection/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "fixcs": "php-cs-fixer fix --diff --verbose",
+        "infection": "infection --threads=max --show-mutations",
+        "psalm": "psalm --show-info=true --no-diff",
+        "rector": "rector process",
+        "require-checker": "composer-require-checker check --config-file=composer-require-checker.json composer.json",
+        "test": "phpunit",
+        "unused": "composer-unused"
+    }
+}

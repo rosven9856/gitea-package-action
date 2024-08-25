@@ -1,5 +1,7 @@
 <?php
 
+exit('++++');
+
 \define('RED', "\033[0;31m");
 \define('GREEN', "\033[1;32m");
 \define('YELLOW', "\033[1;33m");

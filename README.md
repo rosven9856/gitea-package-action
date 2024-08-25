@@ -20,3 +20,22 @@ This action will update the package version in the Gitea system using the API an
           gitea_owner: "owner"
           gitea_repository: "repository"
           gitea_package_registry: "composer"
+```
+
+
+## Developing
+
+build
+```shell
+docker build . --build-arg=PHP_VERSION=8.3.10-1 -t=gitea-package-action
+```
+
+initialization
+```shell
+docker run --rm -e GITHUB_WORKSPACE=/usr/bin/app -v .:/usr/bin/app gitea-package-action composer install
+```
+
+running
+```shell
+docker run --rm -e GITHUB_WORKSPACE=/usr/bin/app -v .:/usr/bin/app gitea-package-action php app.php
+```
