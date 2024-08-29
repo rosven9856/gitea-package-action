@@ -27,7 +27,7 @@ This action will update the package version in the Gitea system using the API an
 
 build
 ```shell
-docker build . --build-arg=PHP_VERSION=8.3.10-1 -t=gitea-package-action
+docker build . --build-arg=PHP_VERSION=8.3 -t=gitea-package-action
 ```
 
 initialization

@@ -40,7 +40,7 @@ function sendRequest ($method = 'GET', $endpoint = '', $data = []): array {
         $endpoint .= '?access_token=' . \getenv('gitea_access_token');
     }
 
-    \curl_setopt($curl, CURLOPT_URL, \getenv('gitea_instance_base_url') . $endpoint /* . '?access_token=' . \getenv('gitea_access_token')*/);
+    \curl_setopt($curl, CURLOPT_URL, app . php\getenv('gitea_instance_base_url') . $endpoint /* . '?access_token=' . \getenv('gitea_access_token')*/);
     \curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
     \curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
     \curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
