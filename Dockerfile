@@ -14,6 +14,8 @@ RUN chown -R php:php /usr/bin/app
 COPY . /usr/bin/app
 WORKDIR /usr/bin/app
 
+ENV GITHUB_WORKSPACE=/usr/bin/app
+
 RUN composer install
 
 VOLUME ["/usr/bin/app"]

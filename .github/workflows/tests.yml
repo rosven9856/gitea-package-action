@@ -41,7 +41,26 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: composer:v2
           coverage: none
-      - run: composer validate --strict --ansi
+      - run: composer validate
+  composer-normalize:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php:
+          - 8.3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{env.BRANCH}}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+      - uses: ramsey/composer-install@v3
+        with:
+          composer-options: --optimize-autoloader
+      - run: composer normalize
   composer-require-checker:
     runs-on: ubuntu-latest
     strategy:
@@ -80,26 +99,7 @@ jobs:
         with:
           composer-options: --optimize-autoloader
       - run: composer unused
-  composer-normalize:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php:
-          - 8.3
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{env.BRANCH}}
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          tools: composer:v2
-          coverage: none
-      - uses: ramsey/composer-install@v3
-        with:
-          composer-options: --optimize-autoloader
-      - run: composer normalize --dry-run --diff --ansi
-  php-cs-fixer:
+  linter:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -117,8 +117,8 @@ jobs:
       - uses: ramsey/composer-install@v3
         with:
           composer-options: --optimize-autoloader
-      - run: composer fixcs -- --dry-run --diff --format=checkstyle --ansi | cs2pr
-  rector:
+      - run: composer php-cs-fixer -- --dry-run --diff --format=checkstyle --ansi | cs2pr
+  refactoring:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -137,7 +137,7 @@ jobs:
         with:
           composer-options: --optimize-autoloader
       - run: composer rector -- --dry-run
-  psalm:
+  static-analysis:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -156,7 +156,7 @@ jobs:
         with:
           composer-options: --optimize-autoloader
       - run: composer psalm -- --php-version=${{ matrix.php }} --stats --output-format=github --shepherd
-  phpunit:
+  unit-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -170,9 +170,28 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
-          coverage: xdebug
+          coverage: pcov
       - uses: ramsey/composer-install@v3
         with:
           composer-options: --optimize-autoloader
       #      - run: composer test -- --colors=always --order-by=random --coverage-clover coverage.xml
-      - run: composer test -- --colors=always --order-by=random
+      - run: composer phpunit
+  mutation-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php:
+          - 8.3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{env.BRANCH}}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: pcov
+      - uses: ramsey/composer-install@v3
+        with:
+          composer-options: --optimize-autoloader
+      - run: composer infection

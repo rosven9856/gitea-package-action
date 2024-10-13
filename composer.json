@@ -16,6 +16,7 @@
         "ergebnis/composer-normalize": "^2.42",
         "friendsofphp/php-cs-fixer": "^3.57",
         "icanhazstring/composer-unused": "^0.8.11",
+        "infection/infection": "^0.27.11",
         "maglnet/composer-require-checker": "^4.11",
         "phpunit/phpunit": "^10.4.2",
         "phpyh/coding-standard": "^2.6",
@@ -38,15 +39,29 @@
             "ergebnis/composer-normalize": true,
             "infection/extension-installer": true
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "sort-scripts": false
     },
     "scripts": {
-        "fixcs": "php-cs-fixer fix --diff --verbose",
         "infection": "infection --threads=max --show-mutations",
+        "normalize": "composer normalize --dry-run --diff --ansi",
+        "php-cs-fixer": "php-cs-fixer fix --diff --verbose",
+        "phpunit": "phpunit --colors=always --order-by=random",
         "psalm": "psalm --show-info=true --no-diff",
         "rector": "rector process",
         "require-checker": "composer-require-checker check --config-file=composer-require-checker.json composer.json",
-        "test": "phpunit",
-        "unused": "composer-unused"
+        "tests": [
+            "@validate",
+            "@normalize",
+            "@require-checker",
+            "@unused",
+            "composer php-cs-fixer -- --dry-run --diff --format=checkstyle --ansi",
+            "composer rector -- --dry-run",
+            "composer psalm -- --stats --shepherd",
+            "@phpunit",
+            "@infection"
+        ],
+        "unused": "composer-unused --excludePackage=ext-zip",
+        "validate": "composer validate --strict --ansi"
     }
 }
