@@ -1,6 +1,18 @@
 <?php
 
-exit('++++');
+declare(strict_types=1);
+
+require __DIR__ . '/vendor/autoload.php';
+
+use App\Configuration\Configuration;
+
+$configuration = (new Configuration())
+    ->set('param', 123)
+;
+
+dd($configuration->getCastingType('param', 'string')->getAsCasting());
+
+exit();
 
 \define('RED', "\033[0;31m");
 \define('GREEN', "\033[1;32m");
@@ -40,7 +52,7 @@ function sendRequest ($method = 'GET', $endpoint = '', $data = []): array {
         $endpoint .= '?access_token=' . \getenv('gitea_access_token');
     }
 
-    \curl_setopt($curl, CURLOPT_URL, app . php\getenv('gitea_instance_base_url') . $endpoint /* . '?access_token=' . \getenv('gitea_access_token')*/);
+    \curl_setopt($curl, CURLOPT_URL, \getenv('gitea_instance_base_url') . $endpoint /* . '?access_token=' . \getenv('gitea_access_token')*/);
     \curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
     \curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
     \curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

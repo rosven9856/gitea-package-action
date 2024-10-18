@@ -62,7 +62,7 @@
             "@phpunit",
             "@infection"
         ],
-        "unused": "composer-unused --excludePackage=ext-zip",
+        "unused": "composer-unused --excludePackage=ext-curl",
         "validate": "composer validate --strict --ansi"
     }
 }
