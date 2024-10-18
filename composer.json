@@ -22,6 +22,7 @@
         "phpyh/coding-standard": "^2.6",
         "psalm/plugin-phpunit": "^0.18.4",
         "rector/rector": "^1.1",
+        "symfony/var-dumper": "^7.1",
         "vimeo/psalm": "^5.24"
     },
     "autoload": {
