@@ -2,6 +2,11 @@ ARG PHP_VERSION=8.3
 
 FROM rosven9856/php:$PHP_VERSION
 
+RUN apk add --update --no-cache --virtual .build-deps ${PHPIZE_DEPS} \
+    && pecl install pcov \
+    && docker-php-ext-enable pcov \
+    && apk del .build-deps
+
 RUN addgroup -g 1000 --system php
 RUN adduser -G php --system -D -s /bin/sh -u 1000 php
 
