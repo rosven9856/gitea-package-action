@@ -6,6 +6,7 @@ namespace App\Casting;
 
 use App\Casting\Type\IntegerType;
 use App\Casting\Type\StringType;
+use App\Exception\Casting\TypeNotFountException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -17,8 +18,8 @@ final class MapperTypeTest extends TestCase
         $type = (new MapperType(MapperType::STRING))->create('value');
 
         self::assertInstanceOf(
-            $type,
             StringType::class,
+            $type,
         );
     }
 
@@ -27,8 +28,8 @@ final class MapperTypeTest extends TestCase
         $type = (new MapperType(MapperType::INTEGER))->create(1);
 
         self::assertInstanceOf(
-            $type,
             IntegerType::class,
+            $type,
         );
     }
 
@@ -37,8 +38,15 @@ final class MapperTypeTest extends TestCase
         $type = (new MapperType(MapperType::INT))->create(1);
 
         self::assertInstanceOf(
-            $type,
             IntegerType::class,
+            $type,
         );
+    }
+
+    public function testTypeNotFountException(): void
+    {
+        self::expectException(TypeNotFountException::class);
+
+        (new MapperType('type-exception'))->create('value');
     }
 }
