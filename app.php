@@ -4,21 +4,34 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
+use App\Action;
 use App\Configuration\Configuration;
-
-$configuration = (new Configuration())
-    ->set('param', 123)
-;
-
-dd($configuration->getCastingType('param', 'string')->getAsCasting());
-
-exit();
+use App\Casting\MapperType;
 
 \define('RED', "\033[0;31m");
 \define('GREEN', "\033[1;32m");
 \define('YELLOW', "\033[1;33m");
 \define('LITE_CYAN', "\e[96m");
 \define('NC', "\033[0m");
+
+try {
+
+    $configuration = (new Configuration())
+        ->set('base_url', \getenv('gitea_instance_base_url'))
+        ->set('access_token', \getenv('gitea_access_token'))
+        ->set('owner', \getenv('gitea_owner'))
+        ->set('owner', \getenv('gitea_owner'))
+        ->set('repository', \getenv('gitea_repository'))
+        ->set('package_registry', \getenv('gitea_package_registry'))
+    ;
+
+    (new Action($configuration))->run();
+
+} catch (Exception) {
+    // echo 'Error: ' . $e->getMessage() . "\n" . 'Trace: ' . $e->getTraceAsString();
+}
+
+
 
 function sendRequest ($method = 'GET', $endpoint = '', $data = []): array {
 
