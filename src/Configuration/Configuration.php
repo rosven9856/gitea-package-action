@@ -6,6 +6,7 @@ namespace App\Configuration;
 
 use App\Casting\MapperType;
 use App\Casting\Type\Type;
+use App\Configuration\Option\OptionInterface;
 use App\Exception\Casting\TypeNotFountException;
 
 final class Configuration
@@ -14,6 +15,13 @@ final class Configuration
 
     public function __construct()
     {
+        return $this;
+    }
+
+    public function option(OptionInterface $option): self
+    {
+        $this->options[] = $option;
+
         return $this;
     }
 

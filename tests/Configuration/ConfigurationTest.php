@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Configuration::class)]
 final class ConfigurationTest extends TestCase
 {
-    public function testUseConfiguration(): void
+    public function testSetGetOptionValue(): void
     {
         $configuration = new Configuration();
         $configuration->set('test-option', 'test-value');

@@ -7,6 +7,9 @@ require __DIR__ . '/vendor/autoload.php';
 use App\Action;
 use App\Configuration\Configuration;
 use App\Casting\MapperType;
+use App\Configuration\Option\UrlOption;
+use App\Configuration\Option\AccessTokenOption;
+use App\Configuration\Option\StringOption;
 
 \define('RED', "\033[0;31m");
 \define('GREEN', "\033[1;32m");
@@ -17,12 +20,31 @@ use App\Casting\MapperType;
 try {
 
     $configuration = (new Configuration())
-        ->set('base_url', \getenv('gitea_instance_base_url'))
-        ->set('access_token', \getenv('gitea_access_token'))
-        ->set('owner', \getenv('gitea_owner'))
-        ->set('owner', \getenv('gitea_owner'))
-        ->set('repository', \getenv('gitea_repository'))
-        ->set('package_registry', \getenv('gitea_package_registry'))
+        ->option(
+            (new UrlOption('base_url', \getenv('gitea_instance_base_url')))
+                ->isRequired()
+                ->cannotBeEmpty()
+        )
+        ->option(
+            (new AccessTokenOption('access_token', \getenv('gitea_access_token')))
+                ->isRequired()
+                ->cannotBeEmpty()
+        )
+        ->option(
+            (new StringOption('owner', \getenv('gitea_owner')))
+                ->isRequired()
+                ->cannotBeEmpty()
+        )
+        ->option(
+            (new StringOption('repository', \getenv('gitea_repository')))
+                ->isRequired()
+                ->cannotBeEmpty()
+        )
+        ->option(
+            (new StringOption('package_registry', \getenv('gitea_package_registry')))
+                ->isRequired()
+                ->cannotBeEmpty()
+        )
     ;
 
     (new Action($configuration))->run();
