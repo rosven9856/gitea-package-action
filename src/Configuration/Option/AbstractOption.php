@@ -2,18 +2,24 @@
 
 namespace App\Configuration\Option;
 
+use App\Exception\Option\EmptyCodeException;
+
 abstract class AbstractOption implements OptionInterface
 {
-    protected string $name;
+    protected string $code;
     protected mixed $value;
     protected bool $isRequired;
     protected bool $isCannotBeEmpty;
     protected mixed $defaultValue;
 
 
-    public function __construct(string $name, mixed $value)
+    public function __construct(string $code, mixed $value = null)
     {
-        $this->name = $name;
+        if (empty($code)) {
+            throw new EmptyCodeException(\sprintf('Code in %s cannot be empty.', static::class));
+        }
+
+        $this->code = $code;
         $this->value = $value;
         $this->isRequired = false;
         $this->isCannotBeEmpty = false;
@@ -22,9 +28,9 @@ abstract class AbstractOption implements OptionInterface
         return $this;
     }
 
-    public function getName(): string
+    public function getCode(): string
     {
-        return $this->name;
+        return $this->code;
     }
 
     public function getValue(): mixed

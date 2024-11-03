@@ -4,18 +4,27 @@ declare(strict_types=1);
 
 namespace App\Configuration;
 
-use App\Casting\MapperType;
-use App\Casting\Type\Type;
 use App\Configuration\Option\OptionInterface;
-use App\Exception\Casting\TypeNotFountException;
+use App\Exception\Option\NotFoundException;
 
 final class Configuration
 {
+    /**
+     * @var array<OptionInterface>
+     */
     public array $options = [];
 
     public function __construct()
     {
         return $this;
+    }
+
+    /**
+     * @return OptionInterface[]
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 
     public function option(OptionInterface $option): self
@@ -25,23 +34,19 @@ final class Configuration
         return $this;
     }
 
-    public function set(string $key, mixed $value): self
-    {
-        $this->options[$key] = $value;
-
-        return $this;
-    }
-
-    public function get(string $key): mixed
-    {
-        return $this->options[$key] ?? null;
-    }
-
     /**
-     * @throws TypeNotFountException
+     * @param string $code
+     * @return OptionInterface
+     * @throws NotFoundException
      */
-    public function getCastingType(string $key, string $type): Type
+    public function getOptionByCode(string $code): OptionInterface
     {
-        return (new MapperType($type))->create($this->get($key));
+        foreach ($this->options as $option) {
+            if ($option->getCode() === $code) {
+                return $option;
+            }
+        }
+
+        throw new NotFoundException(\sprintf('Option by code `%s` not found', $code));
     }
 }

@@ -6,7 +6,6 @@ require __DIR__ . '/vendor/autoload.php';
 
 use App\Action;
 use App\Configuration\Configuration;
-use App\Casting\MapperType;
 use App\Configuration\Option\UrlOption;
 use App\Configuration\Option\AccessTokenOption;
 use App\Configuration\Option\StringOption;

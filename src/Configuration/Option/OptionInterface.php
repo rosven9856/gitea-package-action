@@ -4,7 +4,7 @@ namespace App\Configuration\Option;
 
 interface OptionInterface
 {
-    public function getName(): string;
+    public function getCode(): string;
     public function getValue(): mixed;
     public function isRequired(): self;
     public function getIsRequired(): bool;
