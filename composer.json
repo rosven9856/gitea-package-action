@@ -18,6 +18,7 @@
         "icanhazstring/composer-unused": "^0.8.11",
         "infection/infection": "^0.27.11",
         "maglnet/composer-require-checker": "^4.11",
+        "phpstan/phpstan": "^1.12",
         "phpunit/phpunit": "^10.4.2",
         "phpyh/coding-standard": "^2.6",
         "psalm/plugin-phpunit": "^0.18.4",
@@ -49,6 +50,7 @@
         "php-cs-fixer": "php-cs-fixer fix --diff --verbose",
         "phpunit": "phpunit --colors=always --order-by=random",
         "psalm": "psalm --show-info=true --no-diff",
+        "phpstan": "phpstan analyse --verbose",
         "rector": "rector process",
         "require-checker": "composer-require-checker check --config-file=composer-require-checker.json composer.json",
         "tests": [
@@ -59,6 +61,7 @@
             "composer php-cs-fixer -- --dry-run --diff --format=checkstyle --ansi",
             "composer rector -- --dry-run",
             "composer psalm -- --stats --shepherd",
+            "@phpstan",
             "@phpunit",
             "@infection"
         ],

@@ -137,7 +137,26 @@ jobs:
         with:
           composer-options: --optimize-autoloader
       - run: composer rector -- --dry-run
-  static-analysis:
+  psalm-static-analysis:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php:
+          - 8.3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{env.BRANCH}}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+      - uses: ramsey/composer-install@v3
+        with:
+          composer-options: --optimize-autoloader
+      - run: composer psalm -- --php-version=${{ matrix.php }} --stats --output-format=github --shepherd
+  phpstan-static-analysis:
     runs-on: ubuntu-latest
     strategy:
       matrix:
