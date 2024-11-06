@@ -43,6 +43,8 @@ abstract class AbstractOption implements OptionInterface
     public function isRequired(): self
     {
         $this->isRequired = true;
+
+        return $this;
     }
 
     public function getIsRequired(): bool
@@ -53,6 +55,8 @@ abstract class AbstractOption implements OptionInterface
     public function cannotBeEmpty(): self
     {
         $this->isCannotBeEmpty = true;
+
+        return $this;
     }
 
     public function getIsCannotBeEmpty(): bool
@@ -63,6 +67,8 @@ abstract class AbstractOption implements OptionInterface
     public function defaultValue(mixed $value): self
     {
         $this->defaultValue = $value;
+
+        return $this;
     }
 
     public function getDefaultValue(): mixed
