@@ -48,10 +48,11 @@ try {
 
     (new Action($configuration))->run();
 
-} catch (Exception) {
-    // echo 'Error: ' . $e->getMessage() . "\n" . 'Trace: ' . $e->getTraceAsString();
+} catch (Exception $e) {
+    echo 'Error: ' . $e->getMessage() . "\n" . 'Trace: ' . $e->getTraceAsString();
 }
 
+exit();
 
 
 function sendRequest ($method = 'GET', $endpoint = '', $data = []): array {

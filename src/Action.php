@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Configuration\Configuration;
+use App\Exception\RuntimeException;
 
 final class Action
 {
@@ -21,17 +22,21 @@ final class Action
     {
         $this->checkExtensions();
         $this->checkConfiguration();
-
-        // $this->configuration->getCastingType('param', MapperType::STRING)->getAsCasting()
     }
 
     private function checkExtensions(): void
     {
-
+        if (!\extension_loaded('curl')) {
+            throw new RuntimeException('CURL extension is not loaded');
+        }
     }
 
     private function checkConfiguration(): void
     {
+        $errors = $this->configuration->validate();
 
+        if (\count($errors) > 0) {
+            throw new RuntimeException(sprintf('Errors for configuration: %s', \implode(', ', $errors)));
+        }
     }
 }

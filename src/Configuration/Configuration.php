@@ -6,6 +6,7 @@ namespace App\Configuration;
 
 use App\Configuration\Option\OptionInterface;
 use App\Exception\Option\NotFoundException;
+use App\Exception\Option\ValidateException;
 
 final class Configuration
 {
@@ -48,5 +49,22 @@ final class Configuration
         }
 
         throw new NotFoundException(\sprintf('Option by code `%s` not found', $code));
+    }
+
+    public function validate(): array
+    {
+        $results = array_map(static function (OptionInterface $option) {
+
+            try {
+                $option->validate();
+            } catch (ValidateException $e) {
+                return $e->getMessage();
+            }
+
+            return '';
+
+        }, $this->getOptions());
+
+        return $results;
     }
 }
