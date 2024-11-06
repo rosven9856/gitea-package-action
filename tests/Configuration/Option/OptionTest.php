@@ -98,4 +98,97 @@ class OptionTest extends TestCase
         self::assertIsInt($optionMock->getValue());
         self::assertEquals($optionValue4, $optionMock->getValue());
     }
+
+    public function testGetIsRequired(): void
+    {
+        $optionCode = 'code';
+
+        $optionMock = $this
+            ->getMockBuilder(AbstractOption::class)
+            ->setConstructorArgs([$optionCode])
+            ->getMock();
+
+        self::assertFalse($optionMock->getIsRequired());
+
+
+        $optionMock = $this
+            ->getMockBuilder(AbstractOption::class)
+            ->setConstructorArgs([$optionCode])
+            ->getMock();
+        $optionMock->isRequired();
+        $optionMock->method('getIsRequired')->willReturn(true);
+
+        self::assertTrue($optionMock->getIsRequired());
+    }
+
+    public function testGetIsCannotBeEmpty(): void
+    {
+        $optionCode = 'code';
+
+        $optionMock = $this
+            ->getMockBuilder(AbstractOption::class)
+            ->setConstructorArgs([$optionCode])
+            ->getMock();
+
+        self::assertFalse($optionMock->getIsCannotBeEmpty());
+
+
+        $optionMock = $this
+            ->getMockBuilder(AbstractOption::class)
+            ->setConstructorArgs([$optionCode])
+            ->getMock();
+        $optionMock->cannotBeEmpty();
+        $optionMock->method('getIsCannotBeEmpty')->willReturn(true);
+
+        self::assertTrue($optionMock->getIsCannotBeEmpty());
+    }
+
+    public function testGetDefaultValue(): void
+    {
+        $optionCode = 'code';
+        $optionValue = 'value';
+        $optionDefaultValue = 'default';
+
+        $optionMock = $this
+            ->getMockBuilder(AbstractOption::class)
+            ->setConstructorArgs([$optionCode])
+            ->getMock();
+
+        self::assertNull($optionMock->getValue());
+        self::assertNull($optionMock->getDefaultValue());
+
+
+        $optionMock = $this
+            ->getMockBuilder(AbstractOption::class)
+            ->setConstructorArgs([$optionCode, $optionValue])
+            ->getMock();
+        $optionMock->method('getValue')->willReturn($optionValue);
+
+        self::assertEquals($optionValue, $optionMock->getValue());
+        self::assertNull($optionMock->getDefaultValue());
+
+
+        $optionMock = $this
+            ->getMockBuilder(AbstractOption::class)
+            ->setConstructorArgs([$optionCode])
+            ->getMock();
+        $optionMock->defaultValue($optionDefaultValue);
+        $optionMock->method('getValue')->willReturn($optionDefaultValue);
+        $optionMock->method('getDefaultValue')->willReturn($optionDefaultValue);
+
+        self::assertEquals($optionDefaultValue, $optionMock->getValue());
+        self::assertEquals($optionDefaultValue, $optionMock->getDefaultValue());
+
+
+        $optionMock = $this
+            ->getMockBuilder(AbstractOption::class)
+            ->setConstructorArgs([$optionCode, $optionValue])
+            ->getMock();
+        $optionMock->defaultValue($optionDefaultValue);
+        $optionMock->method('getValue')->willReturn($optionValue);
+        $optionMock->method('getDefaultValue')->willReturn($optionDefaultValue);
+
+        self::assertEquals($optionValue, $optionMock->getValue());
+        self::assertEquals($optionDefaultValue, $optionMock->getDefaultValue());
+    }
 }
